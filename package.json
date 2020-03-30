@@ -1,0 +1,56 @@
+{
+	"name": "ghdl-interface",
+	"displayName": "ghdl-interface",
+	"description": "This is a VSCode interface for ghdl",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.43.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCommand:extension.ghdl-analyze_file"
+	],
+	"main": "./ghdlInterface.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "extension.ghdl-analyze_file",
+				"title": "ghdl analyze file"
+			}
+		],
+		"menus": {
+		  "editor/context": [
+		    {
+				"when": "resourceLangId == vhdl",
+			  	"command": "extension.ghdl-analyze_file",
+			  	"group": "1_modification@2"
+			}
+		]
+	  },
+	  "keybindings": [
+			{
+				"command": "extension.ghdl-analyze_file",
+				"key": "ctrl+alt+a",
+				"mac": "shift+cmd+a"
+			}
+		]
+	},
+	"scripts": {
+		"lint": "eslint .",
+		"pretest": "npm run lint",
+		"test": "node ./test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/glob": "^7.1.1",
+		"@types/mocha": "^7.0.1",
+		"@types/node": "^12.11.7",
+		"@types/vscode": "^1.43.0",
+		"eslint": "^6.8.0",
+		"glob": "^7.1.6",
+		"mocha": "^7.0.1",
+		"typescript": "^3.7.5",
+		"vscode-test": "^1.3.0"
+	}
+}
