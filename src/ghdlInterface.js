@@ -130,7 +130,7 @@ function showErrors(err) {
 */
 /**
  * @param {any[]} errStr
- * @param {import("../../VSCode_Extensions/ghdl-interface/util/linkedlist/LinkedList")} errorList
+ * @param {import("../../../VSCode_Extensions/ghdl-interface/src/util/linkedlist/LinkedList")} errorList
  */
 function setErrorList(errStr, errorList) {
 	let errHints = []; // all error hits in the error message
@@ -177,7 +177,7 @@ function setErrorList(errStr, errorList) {
 **return value(s): none
 */
 /**
- * @param {import("../../VSCode_Extensions/ghdl-interface/util/linkedlist/LinkedList")} errorList
+ * @param {import("../../../VSCode_Extensions/ghdl-interface/src/util/linkedlist/LinkedList")} errorList
  */
 function decorateErrors(errorList) {
 	let activeEditor = vscode.window.activeTextEditor; // active text editor 
