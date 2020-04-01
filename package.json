@@ -12,7 +12,7 @@
 	"activationEvents": [
 		"onCommand:extension.ghdl-analyze_file"
 	],
-	"main": "./ghdlInterface.js",
+	"main": "./src/ghdlInterface.js",
 	"contributes": {
 		"commands": [
 			{
@@ -33,7 +33,8 @@
 			{
 				"command": "extension.ghdl-analyze_file",
 				"key": "ctrl+alt+a",
-				"mac": "shift+cmd+a"
+				"mac": "shift+cmd+a",
+				"linux": "shift+alt+a"
 			}
 		]
 	},
