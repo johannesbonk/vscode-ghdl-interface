@@ -10,13 +10,18 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.ghdl-analyze_file"
+		"onCommand:extension.editor_ghdl-analyze_file",
+		"onCommand:extension.explorer_ghdl-analyze_file"
 	],
 	"main": "./src/ghdlInterface.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.ghdl-analyze_file",
+				"command": "extension.editor_ghdl-analyze_file",
+				"title": "ghdl analyze file"
+			},
+			{
+				"command": "extension.explorer_ghdl-analyze_file",
 				"title": "ghdl analyze file"
 			}
 		],
@@ -24,14 +29,21 @@
 		  "editor/context": [
 		    {
 				"when": "resourceLangId == vhdl",
-			  	"command": "extension.ghdl-analyze_file",
+			  	"command": "extension.editor_ghdl-analyze_file",
 			  	"group": "1_modification@2"
 			}
+		],
+		  "explorer/context": [
+			{
+				"when": "resourceLangId == vhdl",
+				"command": "extension.explorer_ghdl-analyze_file",
+				"group": "7_modification@3"
+			 }
 		]
 	  },
 	  "keybindings": [
 			{
-				"command": "extension.ghdl-analyze_file",
+				"command": "extension.editor_ghdl-analyze_file",
 				"key": "ctrl+alt+a",
 				"mac": "shift+cmd+a",
 				"linux": "shift+alt+a"

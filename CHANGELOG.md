@@ -6,7 +6,7 @@
 * Invoke functions via Side Bar
 * Submenu for editor context menu (when the feature is finally implemented in vscode)
 
-## Version 0.0.1
+## Version 0.0.1 - 1.4.2020
 * Initial release
 * Implemented basic functionality: 
     * Analyze files with ghdl 

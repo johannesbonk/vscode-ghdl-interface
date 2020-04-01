@@ -61,12 +61,17 @@ const ErrorData = require('./util/linkedlist/ErrorData');
  */
 function activate(context) {
 	console.log('ghdl-interface now active!'); // log extension start
-	let filePath = vscode.window.activeTextEditor.document.uri.fsPath; // get file path
 
-	let disposable = vscode.commands.registerCommand('extension.ghdl-analyze_file', function () {
-		analyzeFile(filePath); 
+	let disposableEditorAnalyze = vscode.commands.registerCommand('extension.editor_ghdl-analyze_file', function () {
+		const filePathEditor = vscode.window.activeTextEditor.document.uri.fsPath; // get file path of the currently opened file
+		analyzeFile(filePathEditor); 
 	});
-	context.subscriptions.push(disposable);
+	let disposableExplorerAnalyze = vscode.commands.registerCommand('extension.explorer_ghdl-analyze_file', (element) => {
+		const filePathExplorer = element.fsPath;
+		analyzeFile(filePathExplorer);  
+	});
+	context.subscriptions.push(disposableEditorAnalyze);
+	context.subscriptions.push(disposableExplorerAnalyze); 
 }
 
 function deactivate() {}
@@ -88,14 +93,18 @@ module.exports = {
 function analyzeFile(filePath) {
 	let command = 'ghdl -a ' + filePath; //command to execute
 	console.log(command);
-	exec(command, (err, stdout, stderr) => {
+	exec(command, async (err, stdout, stderr) => {
   		if (err) {
+			if(vscode.window.activeTextEditor.document.uri.fsPath != filePath) { // open analyzed file in editor, if ghdl analyze was invoked by explorer, with the file not open, and errors occured
+				let doc = await vscode.workspace.openTextDocument(filePath);
+				await vscode.window.showTextDocument(doc); // wait till text editor is shown and set as active editor
+			}
 			showErrors(err); // highlightes the errors in the editor
 			vscode.window.showErrorMessage('there were errors in the file to analyze');
 			vscode.window.showInformationMessage('watch terminal for further information');
     		return;
   		} else {
-			vscode.window.showInformationMessage('file analyzed successfully');
+			vscode.window.showInformationMessage('file analyzed successfully without errors');
 		}
 	});
 }
