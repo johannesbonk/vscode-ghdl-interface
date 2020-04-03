@@ -23,16 +23,13 @@
 const vscode = require('vscode');
 const { exec } = require('child_process');
 const lineDecorationType = vscode.window.createTextEditorDecorationType({
-	color: 'black',
 	overviewRulerColor: 'red',
 	overviewRulerLane: vscode.OverviewRulerLane.Right,
-	backgroundColor: 'red',
-	isWholeLine: 'true', 
 	light: {
-		border: '2px solid black',
+		border: '2px dashed black',
 	},
 	dark: {
-		border: '2px solid white',
+		border: '2px dashed white',
 	}
   })
 const largeDecorationType = vscode.window.createTextEditorDecorationType({
@@ -205,8 +202,9 @@ function decorateErrors(errorList) {
 		const keywrdsArr = errorList.getElement(listElement).getKeywords(); //check if errorList has keywords error
 
 		if(keywrdsArr.length === 0) {
-			const posWholeLine = new vscode.Position(currLine, 0); // index of line 
-			const wholeLineDecoration = { range: new vscode.Range(posWholeLine, posWholeLine), hoverMessage: currMessage};
+			const line = activeEditor.document.lineAt(currLine); 
+			const decorationRange = new vscode.Range(line.range.start, line.range.end); // decorate line from start to end of text
+			const wholeLineDecoration = { range: decorationRange, hoverMessage: currMessage};
 			wholeLine.push(wholeLineDecoration); // set decoration for whole line
 		}
 		for(let i = 0; i < keywrdsArr.length; i++) { // iterate over all keywords in array
@@ -228,7 +226,7 @@ function decorateErrors(errorList) {
 		}
 	}
 	// set decorations with specified css style 
-	activeEditor.setDecorations(lineDecorationType, wholeLine);
 	activeEditor.setDecorations(smallDecorationType, smallNumbers);
 	activeEditor.setDecorations(largeDecorationType, largeNumbers);
+	activeEditor.setDecorations(lineDecorationType, wholeLine);
 }
