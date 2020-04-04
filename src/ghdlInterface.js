@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 const vscode = require('vscode');
+const path = require('path'); 
 const { exec } = require('child_process');
 const lineDecorationType = vscode.window.createTextEditorDecorationType({
 	overviewRulerColor: 'red',
@@ -61,10 +62,12 @@ function activate(context) {
 
 	let disposableEditorAnalyze = vscode.commands.registerCommand('extension.editor_ghdl-analyze_file', function () {
 		const filePathEditor = vscode.window.activeTextEditor.document.uri.fsPath; // get file path of the currently opened file
+		removeDecorations(); // remove old decorations before adding new ones
 		analyzeFile(filePathEditor); 
 	});
 	let disposableExplorerAnalyze = vscode.commands.registerCommand('extension.explorer_ghdl-analyze_file', (element) => {
 		const filePathExplorer = element.fsPath;
+		removeDecorations(); // remove old decorations before adding new ones
 		analyzeFile(filePathExplorer);  
 	});
 	context.subscriptions.push(disposableEditorAnalyze);
@@ -88,20 +91,22 @@ module.exports = {
  * @param {string} filePath
  */
 function analyzeFile(filePath) {
-	let command = 'ghdl -a ' + filePath; //command to execute
+	const dirPath = path.dirname(filePath); 
+	const fileName = path.basename(filePath); 
+	const command = 'ghdl -a ' + filePath; //command to execute
 	console.log(command);
-	exec(command, async (err, stdout, stderr) => {
+	exec(command, {cwd: dirPath}, async (err, stdout, stderr) => { // execute command at source code directory
   		if (err) {
 			if(vscode.window.activeTextEditor.document.uri.fsPath != filePath) { // open analyzed file in editor, if ghdl analyze was invoked by explorer, with the file not open, and errors occured
 				let doc = await vscode.workspace.openTextDocument(filePath);
 				await vscode.window.showTextDocument(doc); // wait till text editor is shown and set as active editor
 			}
 			showErrors(err); // highlightes the errors in the editor
-			vscode.window.showErrorMessage('there were errors in the file to analyze');
+			vscode.window.showErrorMessage('there were errors in ' + fileName);
 			vscode.window.showInformationMessage('watch terminal for further information');
     		return;
   		} else {
-			vscode.window.showInformationMessage('file analyzed successfully without errors');
+			vscode.window.showInformationMessage(fileName + ' analyzed successfully without errors');
 		}
 	});
 }
@@ -229,4 +234,16 @@ function decorateErrors(errorList) {
 	activeEditor.setDecorations(smallDecorationType, smallNumbers);
 	activeEditor.setDecorations(largeDecorationType, largeNumbers);
 	activeEditor.setDecorations(lineDecorationType, wholeLine);
+}
+
+/*
+**Function: removeDecrations
+**usage: removes all decorations from editor 
+**parameter: nonw
+**return value(s): none
+*/
+function removeDecorations(){
+	vscode.window.activeTextEditor.setDecorations(lineDecorationType, []);
+	vscode.window.activeTextEditor.setDecorations(largeDecorationType, []);
+	vscode.window.activeTextEditor.setDecorations(smallDecorationType, []);
 }
