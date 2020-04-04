@@ -60,13 +60,15 @@ const ErrorData = require('./util/linkedlist/ErrorData');
 function activate(context) {
 	console.log('ghdl-interface now active!'); // log extension start
 
-	let disposableEditorAnalyze = vscode.commands.registerCommand('extension.editor_ghdl-analyze_file', function () {
+	let disposableEditorAnalyze = vscode.commands.registerCommand('extension.editor_ghdl-analyze_file', async function () {
 		const filePathEditor = vscode.window.activeTextEditor.document.uri.fsPath; // get file path of the currently opened file
+		await vscode.window.activeTextEditor.document.save(); //save open file before analyzing it
 		removeDecorations(); // remove old decorations before adding new ones
 		analyzeFile(filePathEditor); 
 	});
-	let disposableExplorerAnalyze = vscode.commands.registerCommand('extension.explorer_ghdl-analyze_file', (element) => {
+	let disposableExplorerAnalyze = vscode.commands.registerCommand('extension.explorer_ghdl-analyze_file', async (element) => {
 		const filePathExplorer = element.fsPath;
+		await vscode.window.activeTextEditor.document.save(); //save open file before analyzing
 		removeDecorations(); // remove old decorations before adding new ones
 		analyzeFile(filePathExplorer);  
 	});
@@ -239,7 +241,7 @@ function decorateErrors(errorList) {
 /*
 **Function: removeDecrations
 **usage: removes all decorations from editor 
-**parameter: nonw
+**parameter: none
 **return value(s): none
 */
 function removeDecorations(){
