@@ -72,8 +72,21 @@ function activate(context) {
 		removeDecorations(); // remove old decorations before adding new ones
 		analyzeFile(filePathExplorer);  
 	});
+
 	context.subscriptions.push(disposableEditorAnalyze);
 	context.subscriptions.push(disposableExplorerAnalyze); 
+
+	let disposableEditorElaborate = vscode.commands.registerCommand('extension.editor_ghdl-elaborate_file', async (element) => {
+		const filePathEditor = vscode.window.activeTextEditor.document.uri.fsPath; // get file path of the currently opened file
+		elaborateFiles(filePathEditor); 
+	});
+	let disposableExplorerElaborate = vscode.commands.registerCommand('extension.explorer_ghdl-elaborate_file', async (element) => {
+		const filePathExplorer = element.fsPath;
+		elaborateFiles(filePathExplorer); 
+	});
+
+	context.subscriptions.push(disposableEditorElaborate);
+	context.subscriptions.push(disposableExplorerElaborate); 
 }
 
 function deactivate() {}
@@ -95,7 +108,7 @@ module.exports = {
 function analyzeFile(filePath) {
 	const dirPath = path.dirname(filePath); 
 	const fileName = path.basename(filePath); 
-	const command = 'ghdl -a ' + filePath; //command to execute
+	const command = 'ghdl -a ' + '"' + filePath + '"'; //command to execute
 	console.log(command);
 	exec(command, {cwd: dirPath}, async (err, stdout, stderr) => { // execute command at source code directory
   		if (err) {
@@ -104,8 +117,7 @@ function analyzeFile(filePath) {
 				await vscode.window.showTextDocument(doc); // wait till text editor is shown and set as active editor
 			}
 			showErrors(err); // highlightes the errors in the editor
-			vscode.window.showErrorMessage('there were errors in ' + fileName);
-			vscode.window.showInformationMessage('watch terminal for further information');
+			vscode.window.showErrorMessage(stderr);
     		return;
   		} else {
 			vscode.window.showInformationMessage(fileName + ' analyzed successfully without errors');
@@ -114,8 +126,34 @@ function analyzeFile(filePath) {
 }
 
 /*
+**Function: elaborateFiles
+**usage: elaborates the unit of the analyzed vhdl source file
+**parameter: path of the file that was analyzed
+**return value(s): none
+*/
+/**
+ * @param {string} filePath
+ */
+function elaborateFiles(filePath) {
+	const dirPath = path.dirname(filePath); 
+	const fileName = path.basename(filePath);
+	const unitName = fileName.substr(0, fileName.lastIndexOf("."));
+	const unitPath = filePath.substr(0, filePath.lastIndexOf("."));
+	const command = 'ghdl -e ' + '"' + unitPath + '"'; //command to execute (elaborate vhdl file)
+	console.log(command);
+	exec(command, {cwd: dirPath}, async (err, stdout, stderr) => { // execute command at source code directory
+  		if (err) {
+			vscode.window.showErrorMessage(stderr);
+    		return;
+  		} else {
+			vscode.window.showInformationMessage(unitName + ' elaborated successfully without errors');
+		}
+	});
+}
+
+/*
 **Function: showErrors
-**usage: shows the errors reportedby ghdl in the vscode editor 
+**usage: shows the errors reported by ghdl in the vscode editor 
 **parameter: err (the error message)
 **return value(s): none
 */
@@ -175,7 +213,7 @@ function setErrorList(errStr, errorList) {
 			});
 		}
 		 
-		if(bufPos.length === 2) { // append error information at linked list
+		if(bufPos.length >= 2) { // append error information at linked list (length must be greater than or equal if more numbers get detected mistakenly)
 			let data = new ErrorData(bufPos[0] , bufPos[1], bufMsg[0], bufKeywrds); 
 			errorList.append(data); 
 		}
@@ -194,6 +232,7 @@ function setErrorList(errStr, errorList) {
  */
 function decorateErrors(errorList) {
 	let activeEditor = vscode.window.activeTextEditor; // active text editor 
+	const text = activeEditor.document.getText().toLocaleLowerCase(); // active text in editor (lower case since ghdl error output sets all chars to lowercase)
 
 	if (!activeEditor) { // dont do error highlighting if no editor is open 
 		return;
@@ -216,7 +255,6 @@ function decorateErrors(errorList) {
 		}
 		for(let i = 0; i < keywrdsArr.length; i++) { // iterate over all keywords in array
 			const regEx = new RegExp(keywrdsArr[i], 'g'); // regex containing current keyword
-			const text = activeEditor.document.getText(); // active text editor
 			let match;
 			while (match = regEx.exec(text)) { // look for matches of keyword in active window
 				const startPos = activeEditor.document.positionAt(match.index); // start position of match 
