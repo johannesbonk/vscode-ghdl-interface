@@ -12,9 +12,11 @@
 	"activationEvents": [
 		"onCommand:extension.editor_ghdl-analyze_file",
 		"onCommand:extension.editor_ghdl-elaborate_file",
+		"onCommand:extension.editor_ghdl-run_unit",
 		"onCommand:extension.editor_ghdl-remove",
 		"onCommand:extension.explorer_ghdl-analyze_file",
 		"onCommand:extension.explorer_ghdl-elaborate_file",
+		"onCommand:extension.explorer_ghdl-run_unit",
 		"onCommand:extension.explorer_ghdl-remove"
 	],
 	"main": "./src/ghdlInterface.js",
@@ -29,6 +31,10 @@
 				"title": "ghdl elaborate file"
 			},
 			{
+				"command": "extension.editor_ghdl-run_unit",
+				"title": "ghdl run unit"
+			},
+			{
 				"command": "extension.editor_ghdl-remove",
 				"title": "ghdl remove"
 			},
@@ -39,6 +45,10 @@
 			{
 				"command": "extension.explorer_ghdl-elaborate_file",
 				"title": "ghdl elaborate file"
+			},
+			{
+				"command": "extension.explorer_ghdl-run_unit",
+				"title": "ghdl run unit"
 			},
 			{
 				"command": "extension.explorer_ghdl-remove",
@@ -59,8 +69,13 @@
 			},
 		    {
 				"when": "resourceLangId == vhdl",
-			  	"command": "extension.editor_ghdl-remove",
+			  	"command": "extension.editor_ghdl-run_unit",
 			  	"group": "1_modification@4"
+			},
+		    {
+				"when": "resourceLangId == vhdl",
+			  	"command": "extension.editor_ghdl-remove",
+			  	"group": "1_modification@5"
 			}
 		],
 		  "explorer/context": [
@@ -76,8 +91,13 @@
 			 },
 			 {
 				"when": "resourceLangId == vhdl",
-				"command": "extension.explorer_ghdl-remove",
+				"command": "extension.explorer_ghdl-run_unit",
 				"group": "7_modification@5"
+			 },
+			 {
+				"when": "resourceLangId == vhdl",
+				"command": "extension.explorer_ghdl-remove",
+				"group": "7_modification@6"
 			 }
 		]
 	  },
@@ -95,10 +115,16 @@
 				"linux": "shift+alt+e"
 			},
 			{
-				"command": "extension.editor_ghdl-remove",
+				"command": "extension.editor_ghdl-run_unit",
 				"key": "ctrl+alt+r",
 				"mac": "shift+cmd+r",
 				"linux": "shift+alt+r"
+			},
+			{
+				"command": "extension.editor_ghdl-remove",
+				"key": "ctrl+alt+d",
+				"mac": "shift+cmd+d",
+				"linux": "shift+alt+d"
 			}
 		]
 	},

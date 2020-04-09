@@ -32,7 +32,7 @@ const lineDecorationType = vscode.window.createTextEditorDecorationType({
 	dark: {
 		border: '2px dashed white',
 	}
-  })
+});
 const largeDecorationType = vscode.window.createTextEditorDecorationType({
 	color: 'black',
 	overviewRulerColor: 'red',
@@ -44,12 +44,19 @@ const largeDecorationType = vscode.window.createTextEditorDecorationType({
 	dark: {
 		border: '2px solid white',
 	}
-  })
+});
 const smallDecorationType = vscode.window.createTextEditorDecorationType({
 	overviewRulerColor: 'red',
 	overviewRulerLane: vscode.OverviewRulerLane.Right,
 	border: '1px solid red'
-  })
+});
+  const runUnitDialogOptions = {
+	canSelectMany: false,
+	openLabel: 'Open',
+	filters: {
+	   'ghw files': ['ghw']
+   }
+};
 const LinkedList = require('./util/linkedlist/LinkedList'); 
 const ErrorData = require('./util/linkedlist/ErrorData'); 
   
@@ -87,6 +94,18 @@ function activate(context) {
 
 	context.subscriptions.push(disposableEditorElaborate);
 	context.subscriptions.push(disposableExplorerElaborate); 
+
+	let disposableEditorRunUnit = vscode.commands.registerCommand('extension.editor_ghdl-run_unit', async (element) => {
+		const filePathEditor = vscode.window.activeTextEditor.document.uri.fsPath; // get file path of the currently opened file
+		runUnit(filePathEditor); 
+	});
+	let disposableExplorerRunUnit = vscode.commands.registerCommand('extension.explorer_ghdl-run_unit', async (element) => {
+		const filePathExplorer = element.fsPath;
+		runUnit(filePathExplorer); 
+	});
+
+	context.subscriptions.push(disposableEditorRunUnit);
+	context.subscriptions.push(disposableExplorerRunUnit); 
 	
 	let disposableEditorRemove = vscode.commands.registerCommand('extension.editor_ghdl-remove', async (element) => {
 		removeGeneratedFiles(); 
@@ -97,8 +116,8 @@ function activate(context) {
 		removeGeneratedFiles(); 
 	});
 
-	context.subscriptions.push(disposableExplorerRemove);
 	context.subscriptions.push(disposableEditorRemove); 
+	context.subscriptions.push(disposableExplorerRemove);
 }
 
 function deactivate() {}
@@ -150,8 +169,7 @@ function elaborateFiles(filePath) {
 	const dirPath = vscode.workspace.rootPath; 
 	const fileName = path.basename(filePath);
 	const unitName = fileName.substr(0, fileName.lastIndexOf("."));
-	const unitPath = filePath.substr(0, filePath.lastIndexOf("."));
-	const command = 'ghdl -e ' + '"' + unitPath + '"'; //command to execute (elaborate vhdl file)
+	const command = 'ghdl -e ' + unitName; //command to execute (elaborate vhdl file)
 	console.log(command);
 	exec(command, {cwd: dirPath}, async (err, stdout, stderr) => { // execute command at workspace directory
   		if (err) {
@@ -160,6 +178,28 @@ function elaborateFiles(filePath) {
   		} else {
 			vscode.window.showInformationMessage(unitName + ' elaborated successfully without errors');
 		}
+	});
+}
+
+/**
+ * @param {string} filePath
+ */
+function runUnit(filePath) {
+	const dirPath = vscode.workspace.rootPath; 
+	const fileName = path.basename(filePath);
+	const unitName = fileName.substr(0, fileName.lastIndexOf("."));
+	vscode.window.showSaveDialog(runUnitDialogOptions).then(fileInfos => {
+		const simFilePath = fileInfos.path + '.ghw';
+		const command = 'ghdl -r ' + unitName + ' ' + '--wave=' + '"' + simFilePath + '"'; //command to execute (run unit)
+		console.log(command);
+		exec(command, {cwd: dirPath}, async (err, stdout, stderr) => { // execute command at workspace directory
+			  if (err) {
+				vscode.window.showErrorMessage(stderr);
+				return;
+			  } else {
+				vscode.window.showInformationMessage(unitName + ' elaborated successfully without errors');
+			}
+		});
 	});
 }
 
