@@ -12,8 +12,10 @@
 	"activationEvents": [
 		"onCommand:extension.editor_ghdl-analyze_file",
 		"onCommand:extension.editor_ghdl-elaborate_file",
+		"onCommand:extension.editor_ghdl-remove",
 		"onCommand:extension.explorer_ghdl-analyze_file",
-		"onCommand:extension.explorer_ghdl-elaborate_file"
+		"onCommand:extension.explorer_ghdl-elaborate_file",
+		"onCommand:extension.explorer_ghdl-remove"
 	],
 	"main": "./src/ghdlInterface.js",
 	"contributes": {
@@ -27,12 +29,20 @@
 				"title": "ghdl elaborate file"
 			},
 			{
+				"command": "extension.editor_ghdl-remove",
+				"title": "ghdl remove"
+			},
+			{
 				"command": "extension.explorer_ghdl-analyze_file",
 				"title": "ghdl analyze file"
 			},
 			{
 				"command": "extension.explorer_ghdl-elaborate_file",
 				"title": "ghdl elaborate file"
+			},
+			{
+				"command": "extension.explorer_ghdl-remove",
+				"title": "ghdl remove"
 			}
 		],
 		"menus": {
@@ -46,6 +56,11 @@
 				"when": "resourceLangId == vhdl",
 			  	"command": "extension.editor_ghdl-elaborate_file",
 			  	"group": "1_modification@3"
+			},
+		    {
+				"when": "resourceLangId == vhdl",
+			  	"command": "extension.editor_ghdl-remove",
+			  	"group": "1_modification@4"
 			}
 		],
 		  "explorer/context": [
@@ -58,6 +73,11 @@
 				"when": "resourceLangId == vhdl",
 				"command": "extension.explorer_ghdl-elaborate_file",
 				"group": "7_modification@4"
+			 },
+			 {
+				"when": "resourceLangId == vhdl",
+				"command": "extension.explorer_ghdl-remove",
+				"group": "7_modification@5"
 			 }
 		]
 	  },
@@ -73,6 +93,12 @@
 				"key": "ctrl+alt+l",
 				"mac": "shift+cmd+e",
 				"linux": "shift+alt+e"
+			},
+			{
+				"command": "extension.editor_ghdl-remove",
+				"key": "ctrl+alt+r",
+				"mac": "shift+cmd+r",
+				"linux": "shift+alt+r"
 			}
 		]
 	},

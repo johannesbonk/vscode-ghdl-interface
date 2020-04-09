@@ -87,6 +87,18 @@ function activate(context) {
 
 	context.subscriptions.push(disposableEditorElaborate);
 	context.subscriptions.push(disposableExplorerElaborate); 
+	
+	let disposableEditorRemove = vscode.commands.registerCommand('extension.editor_ghdl-remove', async (element) => {
+		removeGeneratedFiles(); 
+	});
+	let disposableExplorerRemove = vscode.commands.registerCommand('extension.explorer_ghdl-remove', async (element) => {
+		await vscode.window.activeTextEditor.document.save(); //save open file before analyzing
+		removeDecorations(); // remove old decorations before adding new ones
+		removeGeneratedFiles(); 
+	});
+
+	context.subscriptions.push(disposableExplorerRemove);
+	context.subscriptions.push(disposableEditorRemove); 
 }
 
 function deactivate() {}
@@ -106,11 +118,11 @@ module.exports = {
  * @param {string} filePath
  */
 function analyzeFile(filePath) {
-	const dirPath = path.dirname(filePath); 
+	const dirPath = vscode.workspace.rootPath; 
 	const fileName = path.basename(filePath); 
 	const command = 'ghdl -a ' + '"' + filePath + '"'; //command to execute
 	console.log(command);
-	exec(command, {cwd: dirPath}, async (err, stdout, stderr) => { // execute command at source code directory
+	exec(command, {cwd: dirPath}, async (err, stdout, stderr) => { // execute command at workspace directory
   		if (err) {
 			if(vscode.window.activeTextEditor.document.uri.fsPath != filePath) { // open analyzed file in editor, if ghdl analyze was invoked by explorer, with the file not open, and errors occured
 				let doc = await vscode.workspace.openTextDocument(filePath);
@@ -135,18 +147,38 @@ function analyzeFile(filePath) {
  * @param {string} filePath
  */
 function elaborateFiles(filePath) {
-	const dirPath = path.dirname(filePath); 
+	const dirPath = vscode.workspace.rootPath; 
 	const fileName = path.basename(filePath);
 	const unitName = fileName.substr(0, fileName.lastIndexOf("."));
 	const unitPath = filePath.substr(0, filePath.lastIndexOf("."));
 	const command = 'ghdl -e ' + '"' + unitPath + '"'; //command to execute (elaborate vhdl file)
 	console.log(command);
-	exec(command, {cwd: dirPath}, async (err, stdout, stderr) => { // execute command at source code directory
+	exec(command, {cwd: dirPath}, async (err, stdout, stderr) => { // execute command at workspace directory
   		if (err) {
 			vscode.window.showErrorMessage(stderr);
     		return;
   		} else {
 			vscode.window.showInformationMessage(unitName + ' elaborated successfully without errors');
+		}
+	});
+}
+
+/*
+**Function: removeGeneratedFiles
+**usage: removes generated object files 
+**parameter: none
+**return value(s): none
+ */
+function removeGeneratedFiles() {
+	const dirPath = vscode.workspace.rootPath; 
+	const command = 'ghdl --remove'; //command to execute (remove generated files)
+	console.log(command);
+	exec(command, {cwd: dirPath}, async (err, stdout, stderr) => { // execute command at workspace directory
+  		if (err) {
+			vscode.window.showErrorMessage(stderr);
+    		return;
+  		} else {
+			vscode.window.showInformationMessage('successfully removed generated files');
 		}
 	});
 }
