@@ -50,7 +50,7 @@ const smallDecorationType = vscode.window.createTextEditorDecorationType({
 	overviewRulerLane: vscode.OverviewRulerLane.Right,
 	border: '1px solid red'
 });
-  const runUnitDialogOptions = {
+  const ghwDialogOptions = {
 	canSelectMany: false,
 	openLabel: 'Open',
 	filters: {
@@ -107,6 +107,18 @@ function activate(context) {
 	context.subscriptions.push(disposableEditorRunUnit);
 	context.subscriptions.push(disposableExplorerRunUnit); 
 	
+	let disposableEditorClean = vscode.commands.registerCommand('extension.editor_ghdl-clean', async (element) => {
+		cleanGeneratedFiles(); 
+	});
+	let disposableExplorerClean = vscode.commands.registerCommand('extension.explorer_ghdl-clean', async (element) => {
+		await vscode.window.activeTextEditor.document.save(); //save open file before analyzing
+		removeDecorations(); // remove old decorations before adding new ones
+		cleanGeneratedFiles(); 
+	});
+
+	context.subscriptions.push(disposableEditorClean); 
+	context.subscriptions.push(disposableExplorerClean);
+
 	let disposableEditorRemove = vscode.commands.registerCommand('extension.editor_ghdl-remove', async (element) => {
 		removeGeneratedFiles(); 
 	});
@@ -118,6 +130,13 @@ function activate(context) {
 
 	context.subscriptions.push(disposableEditorRemove); 
 	context.subscriptions.push(disposableExplorerRemove);
+
+	let disposableExplorerGtkwave = vscode.commands.registerCommand('extension.explorer_gtkwave', async (element) => {
+		const filePathExplorer = element.fsPath;
+		invokeGtkwave(filePathExplorer); 
+	});
+
+	context.subscriptions.push(disposableExplorerGtkwave);
 }
 
 function deactivate() {}
@@ -181,6 +200,12 @@ function elaborateFiles(filePath) {
 	});
 }
 
+/*
+**Function: runUnit
+**usage: runs the testbench unit and exports to ghw file 
+**parameter: path of the file that was analyzed
+**return value(s): none
+*/
 /**
  * @param {string} filePath
  */
@@ -188,7 +213,7 @@ function runUnit(filePath) {
 	const dirPath = vscode.workspace.rootPath; 
 	const fileName = path.basename(filePath);
 	const unitName = fileName.substr(0, fileName.lastIndexOf("."));
-	vscode.window.showSaveDialog(runUnitDialogOptions).then(fileInfos => {
+	vscode.window.showSaveDialog(ghwDialogOptions).then(fileInfos => {
 		const simFilePath = fileInfos.path + '.ghw';
 		const command = 'ghdl -r ' + unitName + ' ' + '--wave=' + '"' + simFilePath + '"'; //command to execute (run unit)
 		console.log(command);
@@ -204,8 +229,28 @@ function runUnit(filePath) {
 }
 
 /*
-**Function: removeGeneratedFiles
+**Function: cleanGeneratedFiles
 **usage: removes generated object files 
+**parameter: none
+**return value(s): none
+ */
+function cleanGeneratedFiles() {
+	const dirPath = vscode.workspace.rootPath; 
+	const command = 'ghdl --clean'; //command to execute (clean generated files)
+	console.log(command);
+	exec(command, {cwd: dirPath}, async (err, stdout, stderr) => { // execute command at workspace directory
+  		if (err) {
+			vscode.window.showErrorMessage(stderr);
+    		return;
+  		} else {
+			vscode.window.showInformationMessage('successfully cleaned generated files');
+		}
+	});
+}
+
+/*
+**Function: removeGeneratedFiles
+**usage: removes generated object files and library file
 **parameter: none
 **return value(s): none
  */
@@ -220,6 +265,26 @@ function removeGeneratedFiles() {
   		} else {
 			vscode.window.showInformationMessage('successfully removed generated files');
 		}
+	});
+}
+
+/*
+**Function: invokeGtkwave
+**usage: opens selected file in Gtkwave 
+**parameter: filePath
+**return value(s): none
+ */
+/**
+ * @param {string} filePath
+ */
+function invokeGtkwave(filePath) {
+	const command = 'gtkwave ' + '"' + filePath + '"'; //command to execute (gtkwave)
+	console.log(command);
+	exec(command, async (err, stdout, stderr) => { 
+  		if (err) {
+			vscode.window.showErrorMessage(stderr);
+    		return;
+  		}
 	});
 }
 

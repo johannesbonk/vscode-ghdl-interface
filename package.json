@@ -13,11 +13,14 @@
 		"onCommand:extension.editor_ghdl-analyze_file",
 		"onCommand:extension.editor_ghdl-elaborate_file",
 		"onCommand:extension.editor_ghdl-run_unit",
+		"onCommand:extension.editor_ghdl-clean",
 		"onCommand:extension.editor_ghdl-remove",
 		"onCommand:extension.explorer_ghdl-analyze_file",
 		"onCommand:extension.explorer_ghdl-elaborate_file",
 		"onCommand:extension.explorer_ghdl-run_unit",
-		"onCommand:extension.explorer_ghdl-remove"
+		"onCommand:extension.explorer_ghdl-clean",
+		"onCommand:extension.explorer_ghdl-remove",
+		"onCommand:extension.explorer_gtkwave"
 	],
 	"main": "./src/ghdlInterface.js",
 	"contributes": {
@@ -33,6 +36,10 @@
 			{
 				"command": "extension.editor_ghdl-run_unit",
 				"title": "ghdl run unit"
+			},
+			{
+				"command": "extension.editor_ghdl-clean",
+				"title": "ghdl clean"
 			},
 			{
 				"command": "extension.editor_ghdl-remove",
@@ -51,53 +58,76 @@
 				"title": "ghdl run unit"
 			},
 			{
+				"command": "extension.explorer_ghdl-clean",
+				"title": "ghdl clean"
+			},
+			{
 				"command": "extension.explorer_ghdl-remove",
 				"title": "ghdl remove"
+			},
+			{
+				"command": "extension.explorer_gtkwave",
+				"title": "gtkwave"
 			}
 		],
 		"menus": {
 		  "editor/context": [
 		    {
-				"when": "resourceLangId == vhdl",
+				"when": "resourceExtname == vhdl || resourceExtname == .vhd",
 			  	"command": "extension.editor_ghdl-analyze_file",
 			  	"group": "1_modification@2"
 			},
 		    {
-				"when": "resourceLangId == vhdl",
+				"when": "resourceExtname == vhdl || resourceExtname == .vhd || resourceExtname == .vht",
 			  	"command": "extension.editor_ghdl-elaborate_file",
 			  	"group": "1_modification@3"
 			},
 		    {
-				"when": "resourceLangId == vhdl",
+				"when": "resourceExtname == vhdl || resourceExtname == .vhd || resourceExtname == .vht",
 			  	"command": "extension.editor_ghdl-run_unit",
 			  	"group": "1_modification@4"
 			},
 		    {
-				"when": "resourceLangId == vhdl",
-			  	"command": "extension.editor_ghdl-remove",
+				"when": "resourceExtname == vhdl || resourceExtname == .vhd || resourceExtname == .vht",
+			  	"command": "extension.editor_ghdl-clean",
 			  	"group": "1_modification@5"
+			},
+		    {
+				"when": "resourceExtname == vhdl || resourceExtname == .vhd || resourceExtname == .vht",
+			  	"command": "extension.editor_ghdl-remove",
+			  	"group": "1_modification@6"
 			}
 		],
 		  "explorer/context": [
 			{
-				"when": "resourceLangId == vhdl",
+				"when": "resourceExtname == vhdl || resourceExtname == .vhd",
 				"command": "extension.explorer_ghdl-analyze_file",
 				"group": "7_modification@3"
 			 },
 			 {
-				"when": "resourceLangId == vhdl",
+				"when": "resourceExtname == vhdl || resourceExtname == .vhd || resourceExtname == .vht",
 				"command": "extension.explorer_ghdl-elaborate_file",
 				"group": "7_modification@4"
 			 },
 			 {
-				"when": "resourceLangId == vhdl",
+				"when": "resourceExtname == vhdl || resourceExtname == .vhd || resourceExtname == .vht",
 				"command": "extension.explorer_ghdl-run_unit",
 				"group": "7_modification@5"
 			 },
 			 {
-				"when": "resourceLangId == vhdl",
-				"command": "extension.explorer_ghdl-remove",
+				"when": "resourceExtname == vhdl || resourceExtname == .vhd || resourceExtname == .vht",
+				"command": "extension.explorer_ghdl-clean",
 				"group": "7_modification@6"
+			 },
+			 {
+				"when": "resourceExtname == vhdl || resourceExtname == .vhd || resourceExtname == .vht",
+				"command": "extension.explorer_ghdl-remove",
+				"group": "7_modification@7"
+			 },
+			 {
+				"when": "resourceExtname == .ghw || resourceExtname == .vcd",
+				"command": "extension.explorer_gtkwave",
+				"group": "7_modification@8"
 			 }
 		]
 	  },
@@ -119,6 +149,12 @@
 				"key": "ctrl+alt+r",
 				"mac": "shift+cmd+r",
 				"linux": "shift+alt+r"
+			},
+			{
+				"command": "extension.editor_ghdl-clean",
+				"key": "ctrl+alt+c",
+				"mac": "shift+cmd+c",
+				"linux": "shift+alt+c"
 			},
 			{
 				"command": "extension.editor_ghdl-remove",
