@@ -1,14 +1,30 @@
 {
 	"name": "ghdl-interface",
-	"displayName": "ghdl-interface",
+	"displayName": "GHDL Interface",
 	"description": "VSCode interface for ghdl",
-	"version": "0.0.1",
+	"publisher": "Johannes Bonk",
+	"version": "0.0.2",
+	"repository": {
+		"type" : "git",
+		"url": "https://github.com/johannesbonk/vscode-ghdl-interface"
+	},
+	"license": "SEE LICENSE in LICENSE.md",
+	"bugs": {
+		"url": "https://github.com/johannesbonk/vscode-ghdl-interface/issues"
+	},
+	"icon": "res/icon.png",
+	"galleryBanner": {
+		"color": "#C99643",
+		"theme": "dark"
+	},
 	"engines": {
 		"vscode": "^1.43.0"
 	},
 	"categories": [
+		"Programming Languages",
 		"Other"
 	],
+	"keywords": ["ghdl", "GHDL", "hdl", "vhdl", "VHDL", "gtkwave"],
 	"activationEvents": [
 		"onCommand:extension.editor_ghdl-analyze_file",
 		"onCommand:extension.editor_ghdl-elaborate_file",
