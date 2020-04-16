@@ -18,8 +18,10 @@ At present it is possible to invoke the following GHDL functions by either right
 | ghdl clear     | `ghdl -c`                      |
 | ghdl remove    | `ghdl -r`                      |
 
-In addition the GHDL analyze function offers you error highlighting in the editor. 
-**GTKWave:** To open your simulation files with GTKWave, simply rightclick on them (.ghw or .vcd file required) in the explorer and then select `gtkwave` 
+In addition to that the GHDL analyze function offers you error highlighting in the editor. 
+
+**GTKWave** 
+To open your simulation files with GTKWave, simply rightclick on them (.ghw or .vcd file required) in the explorer and then select `gtkwave` 
 ## Keybindings 
 It is also possible to invoke the GHDL functions via the following keybindings.
 

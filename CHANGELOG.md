@@ -3,7 +3,7 @@
 ## [Unreleased]
 * Submenu for editor context menu (when the feature is finally implemented in vscode)
 
-## Version 0.0.2 - 15.04.2020
+## Version 1.0.1 - 16.04.2020
 * Added GHDL functions
     * GHDL elaborate
     * GHDL run unit (export to .ghw file)
