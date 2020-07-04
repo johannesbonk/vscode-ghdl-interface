@@ -3,9 +3,9 @@
 	"displayName": "GHDL Interface",
 	"description": "VSCode interface for ghdl",
 	"publisher": "johannesbonk",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"repository": {
-		"type" : "git",
+		"type": "git",
 		"url": "https://github.com/johannesbonk/vscode-ghdl-interface"
 	},
 	"license": "SEE LICENSE in LICENSE.md",
@@ -24,7 +24,14 @@
 		"Programming Languages",
 		"Other"
 	],
-	"keywords": ["ghdl", "GHDL", "hdl", "vhdl", "VHDL", "gtkwave"],
+	"keywords": [
+		"ghdl",
+		"GHDL",
+		"hdl",
+		"vhdl",
+		"VHDL",
+		"gtkwave"
+	],
 	"activationEvents": [
 		"onCommand:extension.editor_ghdl-analyze_file",
 		"onCommand:extension.editor_ghdl-elaborate_file",
@@ -87,67 +94,67 @@
 			}
 		],
 		"menus": {
-		  "editor/context": [
-		    {
-				"when": "resourceExtname == .vhdl || resourceExtname == .vhd",
-			  	"command": "extension.editor_ghdl-analyze_file",
-			  	"group": "1_modification@2"
-			},
-		    {
-				"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
-			  	"command": "extension.editor_ghdl-elaborate_file",
-			  	"group": "1_modification@3"
-			},
-		    {
-				"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
-			  	"command": "extension.editor_ghdl-run_unit",
-			  	"group": "1_modification@4"
-			},
-		    {
-				"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
-			  	"command": "extension.editor_ghdl-clean",
-			  	"group": "1_modification@5"
-			},
-		    {
-				"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
-			  	"command": "extension.editor_ghdl-remove",
-			  	"group": "1_modification@6"
-			}
-		],
-		  "explorer/context": [
-			{
-				"when": "resourceExtname == .vhdl || resourceExtname == .vhd",
-				"command": "extension.explorer_ghdl-analyze_file",
-				"group": "7_modification@3"
-			 },
-			 {
-				"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
-				"command": "extension.explorer_ghdl-elaborate_file",
-				"group": "7_modification@4"
-			 },
-			 {
-				"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
-				"command": "extension.explorer_ghdl-run_unit",
-				"group": "7_modification@5"
-			 },
-			 {
-				"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
-				"command": "extension.explorer_ghdl-clean",
-				"group": "7_modification@6"
-			 },
-			 {
-				"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
-				"command": "extension.explorer_ghdl-remove",
-				"group": "7_modification@7"
-			 },
-			 {
-				"when": "resourceExtname == .ghw || resourceExtname == .vcd",
-				"command": "extension.explorer_gtkwave",
-				"group": "7_modification@8"
-			 }
-		]
-	  },
-	  "keybindings": [
+			"editor/context": [
+				{
+					"when": "resourceExtname == .vhdl || resourceExtname == .vhd",
+					"command": "extension.editor_ghdl-analyze_file",
+					"group": "1_modification@2"
+				},
+				{
+					"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
+					"command": "extension.editor_ghdl-elaborate_file",
+					"group": "1_modification@3"
+				},
+				{
+					"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
+					"command": "extension.editor_ghdl-run_unit",
+					"group": "1_modification@4"
+				},
+				{
+					"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
+					"command": "extension.editor_ghdl-clean",
+					"group": "1_modification@5"
+				},
+				{
+					"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
+					"command": "extension.editor_ghdl-remove",
+					"group": "1_modification@6"
+				}
+			],
+			"explorer/context": [
+				{
+					"when": "resourceExtname == .vhdl || resourceExtname == .vhd",
+					"command": "extension.explorer_ghdl-analyze_file",
+					"group": "7_modification@3"
+				},
+				{
+					"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
+					"command": "extension.explorer_ghdl-elaborate_file",
+					"group": "7_modification@4"
+				},
+				{
+					"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
+					"command": "extension.explorer_ghdl-run_unit",
+					"group": "7_modification@5"
+				},
+				{
+					"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
+					"command": "extension.explorer_ghdl-clean",
+					"group": "7_modification@6"
+				},
+				{
+					"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
+					"command": "extension.explorer_ghdl-remove",
+					"group": "7_modification@7"
+				},
+				{
+					"when": "resourceExtname == .ghw || resourceExtname == .vcd",
+					"command": "extension.explorer_gtkwave",
+					"group": "7_modification@8"
+				}
+			]
+		},
+		"keybindings": [
 			{
 				"command": "extension.editor_ghdl-analyze_file",
 				"key": "ctrl+alt+a",
