@@ -3,6 +3,9 @@
 ## [Unreleased]
 * Submenu for editor context menu (when the feature is finally implemented in vscode)
 
+## Version 1.0.2 - 04.07.2020
+* Bugfix: changed all occurences of `resourceExtname == vhdl` to `resourceExtname == .vhdl` to recognize the ".vhdl" file extension
+
 ## Version 1.0.1 - 16.04.2020
 * Added GHDL functions
     * GHDL elaborate

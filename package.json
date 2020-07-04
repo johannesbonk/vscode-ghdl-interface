@@ -89,54 +89,54 @@
 		"menus": {
 		  "editor/context": [
 		    {
-				"when": "resourceExtname == vhdl || resourceExtname == .vhd",
+				"when": "resourceExtname == .vhdl || resourceExtname == .vhd",
 			  	"command": "extension.editor_ghdl-analyze_file",
 			  	"group": "1_modification@2"
 			},
 		    {
-				"when": "resourceExtname == vhdl || resourceExtname == .vhd || resourceExtname == .vht",
+				"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
 			  	"command": "extension.editor_ghdl-elaborate_file",
 			  	"group": "1_modification@3"
 			},
 		    {
-				"when": "resourceExtname == vhdl || resourceExtname == .vhd || resourceExtname == .vht",
+				"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
 			  	"command": "extension.editor_ghdl-run_unit",
 			  	"group": "1_modification@4"
 			},
 		    {
-				"when": "resourceExtname == vhdl || resourceExtname == .vhd || resourceExtname == .vht",
+				"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
 			  	"command": "extension.editor_ghdl-clean",
 			  	"group": "1_modification@5"
 			},
 		    {
-				"when": "resourceExtname == vhdl || resourceExtname == .vhd || resourceExtname == .vht",
+				"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
 			  	"command": "extension.editor_ghdl-remove",
 			  	"group": "1_modification@6"
 			}
 		],
 		  "explorer/context": [
 			{
-				"when": "resourceExtname == vhdl || resourceExtname == .vhd",
+				"when": "resourceExtname == .vhdl || resourceExtname == .vhd",
 				"command": "extension.explorer_ghdl-analyze_file",
 				"group": "7_modification@3"
 			 },
 			 {
-				"when": "resourceExtname == vhdl || resourceExtname == .vhd || resourceExtname == .vht",
+				"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
 				"command": "extension.explorer_ghdl-elaborate_file",
 				"group": "7_modification@4"
 			 },
 			 {
-				"when": "resourceExtname == vhdl || resourceExtname == .vhd || resourceExtname == .vht",
+				"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
 				"command": "extension.explorer_ghdl-run_unit",
 				"group": "7_modification@5"
 			 },
 			 {
-				"when": "resourceExtname == vhdl || resourceExtname == .vhd || resourceExtname == .vht",
+				"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
 				"command": "extension.explorer_ghdl-clean",
 				"group": "7_modification@6"
 			 },
 			 {
-				"when": "resourceExtname == vhdl || resourceExtname == .vhd || resourceExtname == .vht",
+				"when": "resourceExtname == .vhdl || resourceExtname == .vhd || resourceExtname == .vht",
 				"command": "extension.explorer_ghdl-remove",
 				"group": "7_modification@7"
 			 },
