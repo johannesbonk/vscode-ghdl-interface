@@ -59,6 +59,7 @@ const smallDecorationType = vscode.window.createTextEditorDecorationType({
 };
 const LinkedList = require('./util/linkedlist/LinkedList'); 
 const ErrorData = require('./util/linkedlist/ErrorData'); 
+const Settings = require('./settings/Settings')
   
 // this method is called when vs code is activated
 /**
@@ -156,9 +157,11 @@ module.exports = {
  * @param {string} filePath
  */
 function analyzeFile(filePath) {
+	const settings = new Settings(vscode)
+	const userOptions = settings.getSettingsString(settings.TaskEnum.analyze) //get user specific settings
 	const dirPath = vscode.workspace.rootPath; 
 	const fileName = path.basename(filePath); 
-	const command = 'ghdl -a ' + '"' + filePath + '"'; //command to execute
+	const command = 'ghdl -a ' + userOptions + ' ' + '"' + filePath + '"'; //command to execute
 	console.log(command);
 	exec(command, {cwd: dirPath}, async (err, stdout, stderr) => { // execute command at workspace directory
   		if (err) {
@@ -185,10 +188,12 @@ function analyzeFile(filePath) {
  * @param {string} filePath
  */
 function elaborateFiles(filePath) {
+	const settings = new Settings(vscode)
+	const userOptions = settings.getSettingsString(settings.TaskEnum.elaborate) //get user specific settings
 	const dirPath = vscode.workspace.rootPath; 
 	const fileName = path.basename(filePath);
 	const unitName = fileName.substr(0, fileName.lastIndexOf("."));
-	const command = 'ghdl -e ' + unitName; //command to execute (elaborate vhdl file)
+	const command = 'ghdl -e ' + userOptions + ' ' + unitName; //command to execute (elaborate vhdl file)
 	console.log(command);
 	exec(command, {cwd: dirPath}, async (err, stdout, stderr) => { // execute command at workspace directory
   		if (err) {
@@ -210,12 +215,14 @@ function elaborateFiles(filePath) {
  * @param {string} filePath
  */
 function runUnit(filePath) {
+	const settings = new Settings(vscode)
+	const userOptions = settings.getSettingsString(settings.TaskEnum.run) //get user specific settings
 	const dirPath = vscode.workspace.rootPath; 
 	const fileName = path.basename(filePath);
 	const unitName = fileName.substr(0, fileName.lastIndexOf("."));
 	vscode.window.showSaveDialog(ghwDialogOptions).then(fileInfos => {
 		const simFilePath = fileInfos.path + '.ghw';
-		const command = 'ghdl -r ' + unitName + ' ' + '--wave=' + '"' + simFilePath + '"'; //command to execute (run unit)
+		const command = 'ghdl -r ' + userOptions + ' ' + unitName + ' ' + '--wave=' + '"' + simFilePath + '"'; //command to execute (run unit)
 		console.log(command);
 		exec(command, {cwd: dirPath}, async (err, stdout, stderr) => { // execute command at workspace directory
 			  if (err) {
