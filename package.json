@@ -3,7 +3,7 @@
 	"displayName": "GHDL Interface",
 	"description": "VSCode interface for ghdl",
 	"publisher": "johannesbonk",
-	"version": "1.0.2",
+	"version": "1.1.2",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/johannesbonk/vscode-ghdl-interface"
@@ -99,14 +99,14 @@
 				"properties": {
 					"ghdl-interface.library.WorkLibraryName": {
 						"type": "string",
-						"scope": "resource", 
-						"default": "", 
+						"scope": "resource",
+						"default": "",
 						"description": "Specifies the name of the 'WORK' library (set to the default name 'WORK' if left blank)"
 					},
 					"ghdl-interface.library.WorkLibraryPath": {
 						"type": "string",
-						"scope": "resource", 
-						"default": "", 
+						"scope": "resource",
+						"default": "",
 						"format": "uri",
 						"description": "Specifies the directory where the 'WORK' library is located (set to the workspace top directory if left blank)"
 					},
@@ -115,91 +115,97 @@
 						"items": {
 							"type": "string"
 						},
-						"scope": "resource", 
-						"default": "", 
+						"scope": "resource",
+						"default": "",
 						"format": "uri",
 						"description": "Specifies the directory/path where GHDL searchs for '.cf' library files (not used if left blank)"
 					},
 					"ghdl-interface.vhdl.VHDLStandard": {
 						"type": "string",
-						"scope": "resource", 
-						"default": "93c", 
-						"enum": ["87",
-								 "93", 
-								 "93c",
-								 "00",
-								 "02",
-								 "08"],
+						"scope": "resource",
+						"default": "93c",
+						"enum": [
+							"87",
+							"93",
+							"93c",
+							"00",
+							"02",
+							"08"
+						],
 						"description": "Specifies the VHDL standard to use"
 					},
 					"ghdl-interface.library.IEEEVersion": {
 						"type": "string",
-						"scope": "resource", 
-						"default": "standard", 
-						"enum": ["none",
-								 "standard", 
-								 "mentor"],
+						"scope": "resource",
+						"default": "standard",
+						"enum": [
+							"none",
+							"standard",
+							"mentor"
+						],
 						"description": "Specifies VHDL standard to use"
 					},
 					"ghdl-interface.library.synopsys": {
 						"type": "boolean",
-						"scope": "resource", 
-						"default": false, 
+						"scope": "resource",
+						"default": false,
 						"description": "Allows the use of synopsys non standard packages"
 					},
 					"ghdl-interface.general.verbose": {
 						"type": "boolean",
-						"scope": "resource", 
-						"default": false, 
+						"scope": "resource",
+						"default": false,
 						"description": "Tells GHDL to be verbose"
 					},
 					"ghdl-interface.simulation.TimeResolution": {
 						"type": "string",
-						"scope": "resource", 
-						"default": "auto", 
-						"enum": ["auto",
-								 "fs", 
-								 "ps",
-								 "ns", 
-								 "us",
-								 "ms",
-								 "sec"],
+						"scope": "resource",
+						"default": "auto",
+						"enum": [
+							"auto",
+							"fs",
+							"ps",
+							"ns",
+							"us",
+							"ms",
+							"sec"
+						],
 						"description": "Sets the base time resolution for the simulation"
 					},
 					"ghdl-interface.general.RelaxedRules": {
 						"type": "boolean",
-						"scope": "resource", 
-						"default": false, 
+						"scope": "resource",
+						"default": false,
 						"description": "Set relaxed rules to be compatible with other simulators or synthesizers"
 					},
 					"ghdl-interface.general.vitalChecks": {
 						"type": "boolean",
-						"scope": "resource", 
-						"default": true, 
+						"scope": "resource",
+						"default": true,
 						"description": "Enable chacksof restriction on VITAL units"
 					},
 					"ghdl-interface.general.PSL": {
 						"type": "boolean",
-						"scope": "resource", 
-						"default": false, 
+						"scope": "resource",
+						"default": false,
 						"description": "Enable parsing of PSL assertions within comments"
 					},
 					"ghdl-interface.general.explicit": {
 						"type": "boolean",
-						"scope": "resource", 
-						"default": false, 
+						"scope": "resource",
+						"default": false,
 						"description": "When two operators are overloaded, give preference to the explicit declaration"
 					},
 					"ghdl-interface.general.synBinding": {
 						"type": "boolean",
-						"scope": "resource", 
-						"default": false, 
+						"scope": "resource",
+						"default": false,
 						"description": "Use synthesizer rules for component binding"
 					},
 					"ghdl-interface.general.mbComments": {
 						"type": "boolean",
-						"scope": "resource", 
-						"default": false, 
+						"scope": "resource",
+						"default": false,
 						"description": "Allow UTF8 or multi-bytes chars in a comment"
 					}
 				}
