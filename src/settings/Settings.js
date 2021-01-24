@@ -113,7 +113,6 @@ module.exports = class Settings {
         let cmdOption = ""
         const libPathArr = workspaceConfig.get("library.LibraryDirectory")
         if (libPathArr.length) {
-
             libPathArr.forEach(libPath => {
                 if(this.path.existsSync(libPath)) {
                     cmdOption = cmdOption + " " + "-P" + '"' + libPath + '"'
