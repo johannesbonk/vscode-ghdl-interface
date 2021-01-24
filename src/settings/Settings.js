@@ -112,13 +112,15 @@ module.exports = class Settings {
     getLibraryDirectory(workspaceConfig) {
         let cmdOption = ""
         const libPathArr = workspaceConfig.get("library.LibraryDirectory")
-        libPathArr.forEach(libPath => {
-            if(this.path.existsSync(libPath)) {
-                cmdOption = cmdOption + " " + "-P" + '"' + libPath + '"'
-            } else {
-                this.vscode.window.showInformationMessage(`Specified path of external library '${libPath}' not found, ignoring argument. Check value in extension settings`)
-            }
-        });
+        if (libPathArr.length) {
+            libPathArr.forEach(libPath => {
+                if(this.path.existsSync(libPath)) {
+                    cmdOption = cmdOption + " " + "-P" + '"' + libPath + '"'
+                } else {
+                    this.vscode.window.showInformationMessage(`Specified path of external library '${libPath}' not found, ignoring argument. Check value in extension settings`)
+                }
+            });
+        }
         return cmdOption
     }
 
